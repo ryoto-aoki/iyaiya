@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>イヤイヤ期子育てシミュレーションゲーム〜りーちゃん編〜</title>
+    <style>
+        body {
+            font-family: 'Meiryo', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff0f5;
+        }
+        .screen {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        #title-screen {
+            padding: 50px 20px;
+            background-color: #fff0f5;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+        }
+        #title-screen h1 {
+            font-size: 2.5em;
+            color: #ff6699;
+            margin-bottom: 50px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .start-btn {
+            padding: 15px 50px;
+            font-size: 1.5em;
+            background-color: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .start-btn:hover {
+            background-color: #ffaa33;
+            transform: scale(1.05);
+        }
+        #rules-screen {
+            padding: 30px 20px;
+        }
+        .rules-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .rules-container h2 {
+            color: #ff6699;
+            margin-bottom: 20px;
+        }
+        .rules-content {
+            text-align: left;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+        .ree-chan {
+            color: #ff6699;
+            font-weight: bold;
+        }
+        .highlight {
+            background-color: #ffffaa;
+            padding: 0 3px;
+        }
+        .rules-ok-btn {
+            padding: 10px 40px;
+            font-size: 1.2em;
+            background-color: #66cc66;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .rules-ok-btn:hover {
+            background-color: #77dd77;
+            transform: scale(1.05);
+        }
+        .game-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .meter {
+            width: 30%;
+            background-color: #eee;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        .meter-fill {
+            height: 20px;
+            transition: width 0.3s;
+        }
+        .child-mood .meter-fill {
+            background-color: #ff9900;
+        }
+        .parent-patience .meter-fill {
+            background-color: #3399ff;
+        }
+        .time-left .meter-fill {
+            background-color: #66cc66;
+        }
+        .scene-image {
+            width: 100%;
+            height: 300px;
+            background-color: #ffebf3;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            position: relative;
+        }
+        .scene-description {
+            margin-bottom: 20px;
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: left;
+        }
+       .options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.option-btn {
+    padding: 10px 15px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+    width: 100%;
+    display: block;
+}
+        .option-btn:hover {
+            background-color: #e0e0e0;
+        }
+        .skill-option {
+            background-color: #e6f7ff;
+            border-left: 4px solid #1890ff;
+        }
+        .result {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .tip {
+            background-color: #fffbe6;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+        .exp-gain {
+            color: #52c41a;
+            font-weight: bold;
+        }
+        .level-up {
+            color: #ff4d4f;
+            font-weight: bold;
+            font-size: 1.2em;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .skill-unlock {
+            color: #1890ff;
+            font-weight: bold;
+            text-align: center;
+            margin: 10px 0;
+        }
+        .next-btn, .next-day-btn {
+            padding: 10px 20px;
+            background-color: #1890ff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .restart-btn {
+            padding: 10px 20px;
+            background-color: #ff4d4f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .game-over {
+            color: #ff4d4f;
+            font-weight: bold;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .game-clear {
+            color: #52c41a;
+            font-weight: bold;
+            font-size: 1.5em;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .day-info {
+            background-color: #f0f8ff;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .weekday {
+            color: #1890ff;
+            font-size: 0.9em;
+        }
+        .weekend {
+            color: #ff4d4f;
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <div id="title-screen" class="screen">
+        <h1>イヤイヤ期子育てシミュレーションゲーム<br>〜りーちゃん編〜</h1>
+        <button id="start-btn" class="start-btn">START</button>
+    </div>
+    
+    <div id="rules-screen" class="screen" style="display: none;">
+        <div class="rules-container">
+            <h2>あそびかた</h2>
+            <div class="rules-content">
+                <p><span class="ree-chan">りーちゃん（3さい）</span>だよ！ よろしくね♪</p>
+                <p>わたし、ときどき「イヤイヤ」しちゃうの。だって、じぶんでやりたいことあるもん！</p>
+                <p>おとうさんとおかあさんは、わたしのきもちをわかってくれるとうれしいな♡</p>
+                <p>このゲームでは、<span class="highlight">わたしのきもち</span>と<span class="highlight">おとうさん・おかあさんのがまんづよさ</span>と<span class="highlight">のこりじかん</span>に気をつけてね！</p>
+                <p>げつようびからにちようびまでの1しゅうかん、わたしのおせわをしてね！</p>
+                <p>わたしのきもちがゼロになったり、おとうさん・おかあさんのがまんがなくなったり、じかんがなくなると、ゲームオーバーだよ！</p>
+                <p>にちようびまでがんばれるかな？ いっしょにあそぼ！</p>
+            </div>
+            <button id="rules-ok-btn" class="rules-ok-btn">OK！</button>
+        </div>
+    </div>
+    
+    <div id="game-screen" class="screen" style="display: none;">
+        <div class="game-container">
+            <div class="header">
+                <div class="day-info">
+                    <p><span id="day">1</span>日目 (<span id="weekday" class="weekday">月曜日</span>)</p>
+                </div>
+            </div>
+            
+            <div class="status-bar">
+                <div class="meter child-mood">
+                    <p>りーちゃんの機嫌</p>
+                    <div id="childMoodMeter" class="meter-fill" style="width: 80%;"></div>
+                </div>
+                <div class="meter parent-patience">
+                    <p>親の忍耐力</p>
+                    <div id="parentPatienceMeter" class="meter-fill" style="width: 100%;"></div>
+                </div>
+                <div class="meter time-left">
+                    <p>残り時間</p>
+                    <div id="timeLeftMeter" class="meter-fill" style="width: 100%;"></div>
+                </div>
+            </div>
+            
+            <div class="scene-image">
+                <p>りーちゃん（3歳）</p>
+            </div>
+            
+            <div id="sceneDescription" class="scene-description"></div>
+            
+            <div id="options" class="options"></div>
+            
+            <div id="result" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        // ゲームの状態
+        const gameState = {
+            childMood: 80,
+            parentPatience: 100,
+            timeLeft: 100,
+            day: 1,
+            currentEvent: 0, // 0: 朝, 1: 昼/夕方, 2: 夜
+            extraEventPlayed: false, // エクストライベントが発生したかどうか
+            
+            // 曜日の取得
+            getWeekday() {
+                const weekdays = ["月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日", "日曜日"];
+                return weekdays[this.day - 1];
+            },
+            
+            // 平日かどうか
+            isWeekday() {
+                return this.day <= 5; // 1-5日目は平日
+            },
+            
+            // 朝イベント（平日・休日共通）
+            morningEvents: [
+                {
+                    description: "朝の着替えの時間です。りーちゃんは「自分でやる！」と言いながらも、なかなか着替えが進みません。",
+                    options: [
+                        { 
+                            text: "「早くしなさい！もう時間がないよ」と急かす", 
+                            result: "りーちゃんは不機嫌になり、さらに着替えるのを拒否してしまいました。時間もかかってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「おとうさん/おかあさんが手伝おうか？」と提案する", 
+                            result: "りーちゃんは「自分でやる！」と言いながらも少し手伝ってもらい、何とか着替えることができました。", 
+                            childMood: -5, parentPatience: -30, timeLeft: -20
+                        },
+                        { 
+                            text: "「すごいね、自分でボタンとめられるようになったね」と褒める", 
+                            result: "りーちゃんは褒められて嬉しそうに、頑張って自分で着替えました。少し時間はかかりましたが、機嫌よく準備できました。", 
+                            childMood: +10, parentPatience: -5, timeLeft: -30
+                        },
+                        { 
+                            text: "「りーちゃんのお洋服、とっても可愛いね。着るの楽しみだね」と着替えに興味を持たせる", 
+                            result: "りーちゃんは洋服に興味を示し、「見せてあげる！」と言って意欲的に着替え始めました。スムーズに着替えが完了しました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -10
+                        }
+                    ]
+                },
+                {
+                    description: "朝食の時間です。りーちゃんは「これ食べたくない」と言って、朝食を食べようとしません。",
+                    options: [
+                        { 
+                            text: "「食べなさい！」と強く言う", 
+                            result: "りーちゃんは泣き出して、さらに食べるのを拒否してしまいました。朝から大変な雰囲気になってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「じゃあ、何が食べたい？」と聞く", 
+                            result: "りーちゃんは「りんごが食べたい！」と言いました。りんごを少し追加したら、他のおかずも少し食べてくれました。", 
+                            childMood: +5, parentPatience: -10, timeLeft: -30
+                        },
+                        { 
+                            text: "「このおかず、恐竜さんが食べるとすごく強くなれるんだって」と物語を作る", 
+                            result: "りーちゃんは、「りーちゃんは恐竜じゃないからなー」と言って、呆れた様子で食べ始めました。", 
+                            childMood: -15, parentPatience: -30, timeLeft: -10
+                        },
+                        { 
+                            text: "「一口だけでも食べてみる？おいしいよ」と優しく促す", 
+                            result: "りーちゃんは渋々一口食べてみると、「意外とおいしい」と言って少しずつ食べ始めました。時間はかかりましたが、半分は食べてくれました。", 
+                            childMood: 0, parentPatience: -5, timeLeft: -30
+                        }
+                    ]
+                },
+                {
+                    description: "出発の準備をしています。りーちゃんはまだ遊びたいと言って、なかなか準備ができません。",
+                    options: [
+                        { 
+                            text: "「もう行くよ！早くしなさい」と強く言う", 
+                            result: "りーちゃんは泣き出して床に寝転がり、さらに準備が遅れてしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「あと5分だけ遊んでいいよ。そしたら出発しようね」と時間を区切る", 
+                            result: "りーちゃんは「やった！」と喜び、5分後には「約束だもんね」と言って素直に準備を始めました。", 
+                            childMood: +10, parentPatience: +0, timeLeft: -30
+                        },
+                        { 
+                            text: "「今から出かけるよ。帰ってきたら続きで遊ぼうね」と次の楽しみを約束する", 
+                            result: "りーちゃんは「今遊びたいの！」と言って怒り出し、なかなか準備をしてくれませんでした。", 
+                            childMood: -20, parentPatience: -30, timeLeft: -50
+                        },
+                        { 
+                            text: "「りーちゃんは電車の運転手さん、おとうさん/おかあさんは乗客ね。保育園駅まで連れて行ってください！」と遊びに変える", 
+                            result: "りーちゃんは運転手さんになりきって喜び、「発車しまーす！」と言いながら元気に出かけました。とても効果的でした！", 
+                            childMood: +20, parentPatience: +0, timeLeft: -5
+                        }
+                    ]
+                }
+            ],
+            
+            // 平日夕方イベント
+            eveningEvents: [
+                {
+                    description: "保育園のお迎えの時間です。りーちゃんは「まだ遊びたい！」と言って、帰る準備をしません。",
+                    options: [
+                        { 
+                            text: "「もう帰るよ！早くしなさい」と強く言う", 
+                            result: "りーちゃんは泣き出して、「イヤだ、帰らない！」とさらに強く拒否してしまいました。先生に助けてもらいましたが、時間がかかりました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「あと5分だけ遊んでいいよ。そしたら帰ろうね」と時間を区切る", 
+                            result: "りーちゃんは「やった！」と喜んで遊び始めた、、、ところが5分後、まだ遊び足りないとグズってしまった、、、。", 
+                            childMood: -10, parentPatience: -30, timeLeft: -40
+                        },
+                        { 
+                            text: "「今日はどんなことして遊んだの？」と保育園での出来事を聞く", 
+                            result: "りーちゃんは嬉しそうに今日の出来事を話し始め、話しながら自然と帰る準備ができました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -10
+                        },
+                        { 
+                            text: "「おうちに帰ったら、りーちゃんの好きなおやつがあるよ」と楽しみを伝える", 
+                            result: "りーちゃんは「今食べたい！」となり、帰らないと食べられないことに対して怒り出した、、、。", 
+                            childMood: -10, parentPatience: -20, timeLeft: -30
+                        }
+                    ]
+                },
+                {
+                    description: "家に帰ってきました。りーちゃんは手を洗わずにおもちゃで遊び始めようとしています。",
+                    options: [
+                        { 
+                            text: "「手を洗いなさい！」と強く言う", 
+                            result: "りーちゃんは不機嫌になり、「イヤだ！」と言って手を洗うのを拒否してしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「手を洗ったら、一緒におもちゃで遊ぼうね」と条件を出す", 
+                            result: "りーちゃんは少し考えて、「約束だよ？」と言いながら手を洗いに行きました。", 
+                            childMood: +5, parentPatience: -5, timeLeft: -10
+                        },
+                        { 
+                            text: "「手洗いレースしよう！誰が一番早く上手に洗えるかな？」と遊びに変える", 
+                            result: "りーちゃんは「りーちゃんが勝つ！」と言って喜んで手を洗いに行きました。楽しく手洗いができました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -5
+                        },
+                        { 
+                            text: "「手を洗うと、おもちゃの菌をやっつけられるよ。おもちゃも喜ぶね」と理由を伝える", 
+                            result: "りーちゃんは「バイキンマンをいじめないで！」と言って、怒り出した、、、。", 
+                            childMood: -10, parentPatience: -20, timeLeft: -30
+                        }
+                    ]
+                },
+                {
+                    description: "夕食の時間です。りーちゃんは「これ嫌い！」と言って、おみそ汁を食べようとしません。",
+                    options: [
+                        { 
+                            text: "「食べな。残したらデザートなしだよ」と強めに言う", 
+                            result: "りーちゃんは「しかたないですね」と言って渋々食べてくれた。", 
+                            childMood: -10, parentPatience: -5, timeLeft: -5
+                        },
+                        { 
+                            text: "「一口だけでも食べてみる？」と優しく促す", 
+                            result: "りーちゃんは渋々一口食べてみると、「まあまあかな」と言って少しずつ食べ始めました。時間はかかりましたが、半分は食べてくれました。", 
+                            childMood: -10, parentPatience: -10, timeLeft: -30
+                        },
+                        { 
+                            text: "「おみそ汁、誰に運んでもらう？」と聞いてみる", 
+                            result: "りーちゃんは、「ばあば！」と答えたので、「ばあば！ばあば！」と言って、スプーンでおみそ汁を口まで運んで上げると大喜びで食べてくれました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -30
+                        },
+                        { 
+                            text: "「おみそ汁を飲むと強くなれるよ。おとうさん/おかあさんも食べて強くなったんだよ」と伝える", 
+                            result: "りーちゃんは「んなわけ！」とツッコミを入れて、大人たちの都合のいい嘘を見破りました。", 
+                            childMood: -5, parentPatience: -20, timeLeft: -10
+                        }
+                    ]
+                }
+            ],
+            
+            // 休日昼イベント
+            noonEvents: [
+                {
+                    description: "公園に来ました。りーちゃんは他の子のおもちゃを取ってしまい、トラブルになっています。",
+                    options: [
+                        { 
+                            text: "「おともだちのものを取ったらダメでしょ！謝りなさい」と強く言う", 
+                            result: "りーちゃんは泣き出して、謝るどころか「イヤだ！」と言って拒否してしまいました。状況が悪化してしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「貸してって言えたらいいね。一緒に言ってみる？」と提案する", 
+                            result: "りーちゃんは少し考えて、一緒に「貸して」と言うことができました。相手の子も少し貸してくれて、仲直りできました。", 
+                            childMood: +5, parentPatience: 0, timeLeft: -15
+                        },
+                        { 
+                            text: "「おもちゃ、欲しかったんだね。でも、お友達も遊びたいんだよ」と気持ちに共感しつつ説明する", 
+                            result: "りーちゃんは「でも、りーちゃんも遊びたいの！」と言って泣き出してしまいました、、、。", 
+                            childMood: -10, parentPatience: -20, timeLeft: -30
+                        },
+                        { 
+                            text: "「こっちにも面白いおもちゃがあるよ。一緒に遊ぼう」と別の遊びに誘う", 
+                            result: "りーちゃんは新しいおもちゃに興味を示し、トラブルを忘れて楽しく遊び始めました。上手に気をそらすことができました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -5
+                        }
+                    ]
+                },
+                {
+                    description: "ファミレスでランチです。りーちゃんは席に座らず、店内を走り回ろうとしています。",
+                    options: [
+                        { 
+                            text: "「座って！走ったら危ないでしょ」と強めに言う", 
+                            result: "りーちゃんは渋々座ってくれました。", 
+                            childMood: -15, parentPatience: -5, timeLeft: -5
+                        },
+                        { 
+                            text: "「ワオっちしようか？」とスマホを見せて誘う", 
+                            result: "りーちゃんはワオっちに興味を示し、席に戻って遊び始めました。食事が来るまで静かに過ごすことができました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -5
+                        },
+                        { 
+                            text: "「お店の人や他のお客さんが困っちゃうよ。お食事が来るまでおとうさん/おかあさんとお話ししよう」と理由を説明する", 
+                            result: "りーちゃんは少し考えて、「ワオっちがしたい！」と言い出しました。ワオっちはさせたくなかったので、引き続き交渉が続きました、、、。", 
+                            childMood: -5, parentPatience: -30, timeLeft: -30
+                        },
+                        { 
+                            text: "「どんなご飯が来るかな？メニューの写真を見てみよう」と興味を引く", 
+                            result: "りーちゃんは「うどんがいい！」と言ったものの、うどんが無いことに気づき泣き出しました。結局何も食べないと言い出し、やむなくファミレスを出ることに、、、", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        }
+                    ]
+                },
+                {
+                    description: "スーパーでお買い物中です。りーちゃんはお菓子売り場で「これ買って！」とダダをこね始めました。",
+                    options: [
+                        { 
+                            text: "「今日は買わないよ」と拒否する", 
+                            result: "りーちゃんは大泣きして床に寝転がり、周りのお客さんが見ている中で大変な状況になってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「今日はこれを買う日じゃないんだよ。また今度ね」と優しく説明する", 
+                            result: "りーちゃんは不満そうにしながら、「じゃあ、これ買って」と交渉を持ちかけてきました。ここで断ったらマズイだろうと思い、やむなく交渉成立となりました。", 
+                            childMood: +0, parentPatience: -30, timeLeft: -10
+                        },
+                        { 
+                            text: "「今日のおやつはもう決まってるよ。家に帰ったら食べようね」と別の楽しみを伝える", 
+                            result: "りーちゃんは家のおやつに興味を示し、「何があるの？」と聞いてきました。お菓子への執着が薄れ、スムーズに買い物を続けられました。", 
+                            childMood: +5, parentPatience: +0, timeLeft: -5
+                        },
+                        { 
+                            text: "「お買い物リストのものを探すの手伝ってくれる？りーちゃんにお手伝いしてほしいな」と役割を与える", 
+                            result: "りーちゃんは「りーちゃんがお手伝いする！」と言って、お菓子のことを忘れて買い物を手伝い始めましたが、かえって買い物に時間がかかりました、、、。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -40
+                        }
+                    ]
+                }
+            ],
+            
+            // 夜イベント（平日・休日共通）
+            nightEvents: [
+                {
+                    description: "お風呂の時間です。りーちゃんは「お風呂入りたくない！」と言って逃げ回っています。",
+                    options: [
+                        { 
+                            text: "「早く入りなさい！」と言う", 
+                            result: "りーちゃんはさらに抵抗し、大泣きして床に寝転がってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「お風呂でジュース屋さんしようか？」と誘う", 
+                            result: "りーちゃんは「ジュース屋さんはもう飽きたんだけどな」と言い、渋々ながらもお風呂に向かいました。", 
+                            childMood: -10, parentPatience: -10, timeLeft: -5
+                        },
+                        { 
+                            text: "「どうしてお風呂嫌なの？」と理由を聞く", 
+                            result: "りーちゃんは「だってさー、洗いたくないんだよね」とめんどくさそうに答えました。本質的な理由まで聞き出せず、相変わらず対応しづらかった、、、。", 
+                            childMood: -10, parentPatience: -30, timeLeft: -30
+                        },
+                        { 
+                            text: "「お風呂入ったら、マンゴーはちみつ飲もうね」と条件を出す", 
+                            result: "りーちゃんは「迷路したい」と言い出し、しかたなく2分迷路をしてからお風呂に向かいました。", 
+                            childMood: +15, parentPatience: -20, timeLeft: -30
+                        }
+                    ]
+                },
+                {
+                    description: "歯磨きの時間です。りーちゃんは「イヤだ！」と口を閉じて歯磨きを拒否しています。",
+                    options: [
+                        { 
+                            text: "「歯磨きしないと虫歯になるよ！」と脅す", 
+                            result: "りーちゃんはさらに怖がって拒否し、泣き出してしまいました。歯磨きどころではなくなってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「歯磨きごっこしよう。まずはぬいぐるみの歯を磨いてあげよう」と遊びに変える", 
+                            result: "りーちゃんはぬいぐるみの歯磨きに興味を示し、「次はりーちゃんの番！」と言って自分の歯も磨かせてくれました。", 
+                            childMood: +20, parentPatience: -5, timeLeft: -15
+                        },
+                        { 
+                            text: "「どっちの歯ブラシ使う？ウサギさんとクマさんどっちがいい？」と選択肢を与える", 
+                            result: "りーちゃんは「ライオン！」と第三の選択肢を提示してきましたが、ライオンは無いと知ると怒りはじめました、、、。", 
+                            childMood: -20, parentPatience: -30, timeLeft: -40
+                        },
+                        { 
+                            text: "「歯磨きの歌を歌いながらやってみようか？」と楽しい雰囲気を作る", 
+                            result: "りーちゃんは「歌ってたら歯磨けないじゃん」と冷静に答え、呆れた様子で静かに一人で磨き始めました。", 
+                            childMood: -15, parentPatience: -30, timeLeft: -5
+                        }
+                    ]
+                },
+                {
+                    description: "寝る時間です。りーちゃんは「まだ遊びたい！寝たくない！」と言って布団に入ろうとしません。",
+                    options: [
+                        { 
+                            text: "「もう寝なさい！明日早いんだから」と強く言う", 
+                            result: "りーちゃんは「あっち行って！」と言って泣き出し、さらに興奮してしまい、かえって寝付きが悪くなってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「明日起きたら、また遊べるよ」と安心させる", 
+                            result: "りーちゃんは「今遊びたいの！」と言ってエスカレートしてしまいました、、、。", 
+                            childMood: -30, parentPatience: -30, timeLeft: -30
+                        },
+                        { 
+                            text: "「今日一日、何が楽しかった？」と一日の振り返りをする", 
+                            result: "りーちゃんは今日の楽しかったことを話し始め、話しているうちに自然と布団に入りました。穏やかな気持ちで眠りにつけました。", 
+                            childMood: +15, parentPatience: +0, timeLeft: -20
+                        },
+                        { 
+                            text: "「お話読んであげるね。どのお話がいい？」と絵本の読み聞かせを提案する", 
+                            result: "りーちゃんは絵本に興味を示し、「これがいい！」と選んで布団に入りましたが、選んだ本が多く、寝るまでに時間がかかりました。", 
+                            childMood: +20, parentPatience: -10, timeLeft: -40
+                        }
+                    ]
+                }
+            ],
+            
+            // エクストライベント（土日のみ）
+            extraEvents: [
+                {
+                    description: "弟の「あっくん」とおもちゃを取り合い、あっくんが泣き出してしまいました。",
+                    options: [
+                        { 
+                            text: "「りーちゃん、あっくんから取ったの？ダメでしょ！」と叱る", 
+                            result: "りーちゃんは「りーちゃんが先に遊んでたの！」と言い返し、さらに言い争いになってしまいました。あっくんも泣き止まず、大変な状況になりました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「交代で遊ぼうね。まずはあっくんの番、次はりーちゃんの番だよ」と順番を決める", 
+                            result: "りーちゃんは少し不満そうですが、「りーちゃんの番も来るんだよね？」と確認して、何とか納得してくれました。あっくんも泣き止みました。", 
+                            childMood: -5, parentPatience: -10, timeLeft: -15
+                        },
+                        { 
+                            text: "「りーちゃんはお姉ちゃんだから、あっくんに貸してあげられるかな？優しいお姉ちゃんだね」と年上としての誇りを持たせる", 
+                            result: "りーちゃんは「りーちゃんは今あかちゃんなの！」と言って大人の想像を超える理屈で対抗してきました。", 
+                            childMood: -10, parentPatience: -30, timeLeft: -30
+                        },
+                        { 
+                            text: "「二人で一緒に遊べるおもちゃもあるよ。これで一緒に遊んでみる？」と別のおもちゃを提案する", 
+                            result: "りーちゃんは「一人で遊びたいの！」と言って怒り出しました、、、。", 
+                            childMood: -10, parentPatience: -30, timeLeft: -30
+                        }
+                    ]
+                },
+                {
+                    description: "電車の時刻が迫っている中、りーちゃんが「歩きたくない、抱っこして」と言い出しました。",
+                    options: [
+                        { 
+                            text: "「もう！急いでるのに！早く歩きなさい」と強く言う", 
+                            result: "りーちゃんは泣き出して地面に座り込み、さらに動かなくなってしまいました。電車に間に合いませんでした。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -90
+                        },
+                        { 
+                            text: "「疲れちゃったんだね。少しだけ抱っこするよ」と妥協する", 
+                            result: "りーちゃんは抱っこしてもらって満足しました。何とか電車に間に合いそうです。", 
+                            childMood: +15, parentPatience: -15, timeLeft: -15
+                        },
+                        { 
+                            text: "「電車ごっこしながら行こう！りーちゃんが先頭車両ね」と遊びに変える", 
+                            result: "りーちゃんは「しゅっぽーしゅっぽー！」と言いながら喜んで歩き始めました。ところが時間が結構かかり、電車に乗り遅れました、、、。", 
+                            childMood: +20, parentPatience: -10, timeLeft: -50
+                        },
+                        { 
+                            text: "「あの電車に乗れるかな？りーちゃんは走るの速いもんね」と挑戦心をくすぐる", 
+                            result: "りーちゃんは「走ったら危ないんだよ！」と逆に諭され、反省しました。歩いてくれたので電車には間に合いました", 
+                            childMood: -10, parentPatience: -50, timeLeft: -5
+                        }
+                    ]
+                },
+                {
+                    description: "すでにジュースは飲んだのですが、りーちゃんが「もっとジュース飲みたい！」とぐずり始めました。",
+                    options: [
+                        { 
+                            text: "「さっき飲んだから、おーしーまい！」と笑顔で伝える", 
+                            result: "りーちゃんは大泣きして床に寝転がり、周りの人が見ている中で大変な状況になってしまいました。", 
+                            childMood: -50, parentPatience: -50, timeLeft: -50
+                        },
+                        { 
+                            text: "「お水ならいいよ。お水も美味しいよ」と代替案を提示する", 
+                            result: "りーちゃんは「お水はイヤだ！」と言って、グズり始めました、、、。", 
+                            childMood: -30, parentPatience: -30, timeLeft: -30
+                        },
+                        { 
+                            text: "「ジュースはお腹いっぱいになっちゃうよ。また明日飲もうね」と理由と見通しを伝える", 
+                            result: "りーちゃんは少し考えて、「明日は何のジュース？」と聞いてきました。明日の楽しみができて納得してくれました。", 
+                            childMood: +5, parentPatience: 0, timeLeft: -15
+                        },
+                        { 
+                            text: "「ジュースのかわりに、この後公園で遊ぼうか？」と別の楽しみを提案する", 
+                            result: "りーちゃんは公園に興味を示し、「ブランコする！」と言ってジュースのことを忘れました。ところが、公園にブランコがなく不機嫌になりました、、、。", 
+                            childMood: -30, parentPatience: -10, timeLeft: -5
+                        }
+                    ]
+                }
+            ]
+        };
+        
+        // 現在のイベントを取得する関数
+        function getCurrentEvent() {
+            // 平日か休日かで分岐
+            if (gameState.isWeekday()) {
+                // 平日
+                switch (gameState.currentEvent) {
+                    case 0: // 朝
+                        return getRandomEvent(gameState.morningEvents);
+                    case 1: // 夕方
+                        return getRandomEvent(gameState.eveningEvents);
+                    case 2: // 夜
+                        return getRandomEvent(gameState.nightEvents);
+                }
+            } else {
+                // 休日
+                switch (gameState.currentEvent) {
+                    case 0: // 朝
+                        return getRandomEvent(gameState.morningEvents);
+                    case 1: // 昼
+                        return getRandomEvent(gameState.noonEvents);
+                    case 2: // 夜
+                        return getRandomEvent(gameState.nightEvents);
+                }
+            }
+        }
+        
+        // ランダムなイベントを取得する関数
+        function getRandomEvent(eventArray) {
+            const randomIndex = Math.floor(Math.random() * eventArray.length);
+            return eventArray[randomIndex];
+        }
+        
+        // エクストライベントを取得する関数
+        function getExtraEvent() {
+            // 土日のみ、かつまだ発生していない場合
+            if (!gameState.isWeekday() && !gameState.extraEventPlayed) {
+                const randomIndex = Math.floor(Math.random() * gameState.extraEvents.length);
+                return gameState.extraEvents[randomIndex];
+            }
+            return null;
+        }
+        
+        // メーターの更新
+        function updateMeters() {
+            document.getElementById('childMoodMeter').style.width = `${gameState.childMood}%`;
+            document.getElementById('parentPatienceMeter').style.width = `${gameState.parentPatience}%`;
+            document.getElementById('timeLeftMeter').style.width = `${gameState.timeLeft}%`;
+            
+            // 色の変更（残り少ないと赤くなる）
+            if (gameState.childMood < 30) {
+                document.getElementById('childMoodMeter').style.backgroundColor = '#ff4d4f';
+            } else {
+                document.getElementById('childMoodMeter').style.backgroundColor = '#ff9900';
+            }
+            
+            if (gameState.parentPatience < 30) {
+                document.getElementById('parentPatienceMeter').style.backgroundColor = '#ff4d4f';
+            } else {
+                document.getElementById('parentPatienceMeter').style.backgroundColor = '#3399ff';
+            }
+            
+            if (gameState.timeLeft < 30) {
+                document.getElementById('timeLeftMeter').style.backgroundColor = '#ff4d4f';
+            } else {
+                document.getElementById('timeLeftMeter').style.backgroundColor = '#66cc66';
+            }
+        }
+        
+        // 曜日表示の更新
+        function updateWeekday() {
+            const weekday = gameState.getWeekday();
+            const weekdayElement = document.getElementById('weekday');
+            weekdayElement.textContent = weekday;
+            
+            // 土日は赤色に
+            if (gameState.day > 5) {
+                weekdayElement.className = 'weekend';
+            } else {
+                weekdayElement.className = 'weekday';
+            }
+        }
+        
+// イベントの表示
+function displayEvent(event) {
+    // 前の結果表示をクリア
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = '';
+    
+    const sceneDescription = document.getElementById('sceneDescription');
+    const optionsContainer = document.getElementById('options');
+    
+    // 説明文の設定
+    sceneDescription.textContent = event.description;
+    
+    // 選択肢のクリア
+    optionsContainer.innerHTML = '';
+    
+    // 選択肢と説明文が非表示になっていたら表示に戻す
+    optionsContainer.style.display = 'block';
+    sceneDescription.style.display = 'block';
+    
+    // 選択肢の設定
+    event.options.forEach(option => {
+        const button = document.createElement('button');
+        button.className = 'option-btn';
+        button.textContent = option.text;
+        
+        button.addEventListener('click', () => {
+            // 結果の表示
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = '';
+            
+            const resultText = document.createElement('p');
+            resultText.textContent = option.result;
+            resultElement.appendChild(resultText);
+            
+            // パラメータの更新
+            gameState.childMood = Math.max(0, Math.min(100, gameState.childMood + option.childMood));
+            gameState.parentPatience = Math.max(0, Math.min(100, gameState.parentPatience + option.parentPatience));
+            gameState.timeLeft = Math.max(0, Math.min(100, gameState.timeLeft + option.timeLeft));
+            
+            // メーターの更新
+            updateMeters();
+            
+            // ゲームオーバー判定
+            if (gameState.childMood <= 0 || gameState.parentPatience <= 0 || gameState.timeLeft <= 0) {
+                gameOver();
+                return;
+            }
+            
+            // 次へボタン
+            const nextButton = document.createElement('button');
+            nextButton.className = 'next-btn';
+            nextButton.textContent = '次へ';
+            
+            nextButton.addEventListener('click', () => {
+                // イベントを進める
+                gameState.currentEvent++;
+                
+                // 土日で、かつ現在のイベントが1（2番目）の場合、エクストライベントを発生させる
+                if (!gameState.isWeekday() && gameState.currentEvent === 1 && !gameState.extraEventPlayed) {
+                    gameState.extraEventPlayed = true;
+                    const extraEvent = getExtraEvent();
+                    if (extraEvent) {
+                        displayEvent(extraEvent);
+                        return;
+                    }
+                }
+                
+                // 一日の終了判定
+                if (gameState.currentEvent > 2) {
+                    endDay();
+                } else {
+                    // 次のイベントを表示
+                    displayEvent(getCurrentEvent());
+                }
+            });
+            
+            resultElement.appendChild(nextButton);
+        });
+        
+        optionsContainer.appendChild(button);
+    });
+}
+        
+       // 一日の終了処理
+function endDay() {
+    // 日数を進める
+    gameState.day++;
+    
+    // 7日目終了ならゲームクリア
+    if (gameState.day > 7) {
+        gameClear();
+        return;
+    }
+    
+    // パラメータの回復
+    gameState.childMood = Math.min(100, gameState.childMood + 20);
+    gameState.parentPatience = Math.min(100, gameState.parentPatience + 30);
+    gameState.timeLeft = 100;
+    
+    // 日数表示の更新
+    document.getElementById('day').textContent = gameState.day;
+    
+    // メーターの更新
+    updateMeters();
+    
+    // 曜日表示の更新
+    updateWeekday();
+    
+    // 次の日の準備
+    gameState.currentEvent = 0;
+    gameState.extraEventPlayed = false;
+    
+    // 選択肢を非表示にする
+    document.getElementById('options').style.display = 'none';
+    // シーン説明を非表示にする
+    document.getElementById('sceneDescription').style.display = 'none';
+    
+    // 結果表示
+    const resultElement = document.getElementById('result');
+    resultElement.innerHTML = '';
+    
+    const dayEndText = document.createElement('p');
+    dayEndText.textContent = `${gameState.day - 1}日目が終わりました。次は${gameState.getWeekday()}です。`;
+    resultElement.appendChild(dayEndText);
+    
+    // 次の日へボタン
+const nextDayButton = document.createElement('button');
+nextDayButton.className = 'next-day-btn';
+nextDayButton.textContent = '次の日へ';
+nextDayButton.addEventListener('click', () => {
+    // 選択肢と説明文が非表示になっていたら表示に戻す
+    if (document.getElementById('options').style.display === 'none') {
+        document.getElementById('options').style.display = 'block';
+    }
+    if (document.getElementById('sceneDescription').style.display === 'none') {
+        document.getElementById('sceneDescription').style.display = 'block';
+    }
+    
+    displayEvent(getCurrentEvent());
+});
+resultElement.appendChild(nextDayButton);
+}
+        
+        // ゲームオーバー処理
+        function gameOver() {
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = '';
+            
+            const gameOverText = document.createElement('p');
+            gameOverText.className = 'game-over';
+            gameOverText.textContent = 'ゲームオーバー';
+            resultElement.appendChild(gameOverText);
+            
+            let reasonText = '';
+            if (gameState.childMood <= 0) {
+                reasonText = 'りーちゃんの機嫌が最悪になってしまいました。大泣きが止まりません...';
+            } else if (gameState.parentPatience <= 0) {
+                reasonText = 'おとうさん・おかあさんの忍耐力が限界に達してしまいました。少し休憩が必要かもしれません...';
+            } else if (gameState.timeLeft <= 0) {
+                reasonText = '時間切れです。予定に大幅に遅れてしまいました...';
+            }
+            
+            const reason = document.createElement('p');
+            reason.textContent = reasonText;
+            resultElement.appendChild(reason);
+            
+            const dayText = document.createElement('p');
+            dayText.textContent = `${gameState.day}日目（${gameState.getWeekday()}）までがんばりました！`;
+            resultElement.appendChild(dayText);
+            
+            // リスタートボタン
+const restartButton = document.createElement('button');
+restartButton.className = 'restart-btn';
+restartButton.textContent = 'タイトルに戻る';
+restartButton.addEventListener('click', resetGame);
+resultElement.appendChild(restartButton);
+}
+        
+        // ゲームクリア処理
+        function gameClear() {
+            const resultElement = document.getElementById('result');
+            resultElement.innerHTML = '';
+            
+            const gameClearText = document.createElement('p');
+            gameClearText.className = 'game-clear';
+            gameClearText.textContent = 'ゲームクリア！おめでとうございます！';
+            resultElement.appendChild(gameClearText);
+            
+            const clearMessage = document.createElement('p');
+            clearMessage.textContent = '一週間、りーちゃんのお世話を上手にこなすことができました！';
+            resultElement.appendChild(clearMessage);
+            
+            const reeChanMessage = document.createElement('p');
+            reeChanMessage.style.color = '#ff6699';
+            reeChanMessage.style.fontWeight = 'bold';
+            reeChanMessage.style.fontSize = '1.2em';
+            reeChanMessage.style.margin = '20px 0';
+            reeChanMessage.textContent = 'りーちゃん「おとうさん・おかあさん、いつもありがとう。りーちゃん、だいすきだよ♡」';
+            resultElement.appendChild(reeChanMessage);
+            
+            // リスタートボタン
+const restartButton = document.createElement('button');
+restartButton.className = 'restart-btn';
+restartButton.textContent = 'タイトルに戻る';
+restartButton.addEventListener('click', resetGame);
+resultElement.appendChild(restartButton);
+}        
+    // ゲームリセット
+function resetGame() {
+    gameState.childMood = 80;
+    gameState.parentPatience = 100;
+    gameState.timeLeft = 100;
+    gameState.day = 1;
+    gameState.currentEvent = 0;
+    gameState.extraEventPlayed = false;
+    
+    // 日数表示の更新
+    document.getElementById('day').textContent = gameState.day;
+    
+    // メーターと曜日を更新
+    updateMeters();
+    updateWeekday();
+    
+    // タイトル画面に戻る
+    showScreen('title-screen');
+}
+        
+// 画面切り替え関数
+function showScreen(screenId) {
+    console.log('Showing screen:', screenId);
+    
+    // すべての画面を非表示
+    document.querySelectorAll('.screen').forEach(screen => {
+        console.log('Hiding screen:', screen.id);
+        screen.style.display = 'none';
+    });
+    
+    // 指定した画面を表示
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        console.log('Displaying screen:', screenId);
+        targetScreen.style.display = 'block';
+    } else {
+        console.error('Screen not found:', screenId);
+    }
+}
+
+// DOMContentLoaded イベントを使用して、ページの読み込みが完了してから実行する
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM fully loaded');
+    
+    // タイトル画面のSTARTボタン
+    const startBtn = document.getElementById('start-btn');
+    if (startBtn) {
+        startBtn.addEventListener('click', function() {
+            console.log('Start button clicked');
+            showScreen('rules-screen');
+        });
+    } else {
+        console.error('Start button not found');
+    }
+    
+    // ルール画面のOKボタン
+    const rulesOkBtn = document.getElementById('rules-ok-btn');
+    if (rulesOkBtn) {
+        rulesOkBtn.addEventListener('click', function() {
+            console.log('Rules OK button clicked');
+            showScreen('game-screen');
+            // ゲーム初期化
+            updateMeters();
+            updateWeekday();
+            displayEvent(getCurrentEvent());
+        });
+    } else {
+        console.error('Rules OK button not found');
+    }
+    
+    // 初期表示はタイトル画面
+    showScreen('title-screen');
+});
+
+// デバッグ用：イベントリスナーの確認
+console.log('Start button exists:', !!document.getElementById('start-btn'));
+console.log('Rules OK button exists:', !!document.getElementById('rules-ok-btn'));
+
+// 明示的にイベントリスナーを再設定
+
+if (document.getElementById('rules-ok-btn')) {
+    document.getElementById('rules-ok-btn').onclick = function() {
+        console.log('Rules OK button clicked');
+        showScreen('game-screen');
+        updateMeters();
+        updateWeekday();
+        displayEvent(getCurrentEvent());
+    };
+}
+    </script>
+</body>
+</html>
