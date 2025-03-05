@@ -260,23 +260,56 @@
         padding: 10px;
     }
     
+ /* ステータスバーを横並びに戻す */
     .status-bar {
-        flex-direction: column;
-        gap: 10px;
+        flex-direction: row; /* 横並びに変更 */
+        gap: 5px;
+        margin-bottom: 10px;
     }
     
     .meter {
-        width: 100%;
+        width: 32%; /* 3つ並べるためにわずかに調整 */
     }
     
-    .scene-image {
-        height: 200px;
+    .meter p {
+        font-size: 0.8em; /* フォントサイズを小さく */
+        margin: 0 0 2px 0; /* マージンを減らす */
     }
     
+    .meter-fill {
+        height: 12px; /* メーターの高さを小さく */
+    }
+    
+     /* シーン画像を小さく */
+     .scene-image {
+        height: 150px;
+        margin-bottom: 10px;
+    }
+    
+    /* 説明文をコンパクトに */
+    .scene-description {
+        padding: 10px;
+        margin-bottom: 10px;
+        font-size: 0.9em;
+    }
+    
+    /* 選択肢ボタンをコンパクトに */
     .option-btn {
-        padding: 15px;
-        font-size: 1.1em;
+        padding: 8px 10px;
+        font-size: 0.9em;
     }
+    
+    /* 全体の余白を調整 */
+    .game-container {
+        padding: 10px;
+    }
+    
+    /* 日付表示をコンパクトに */
+    .day-info {
+        padding: 3px 10px;
+        font-size: 0.9em;
+    }
+    
     
     .rules-container {
         padding: 15px;
@@ -293,8 +326,12 @@
         font-size: 1.5em;
     }
     
+    .meter p {
+        font-size: 0.7em; /* さらに小さく */
+    }
+    
     .scene-image {
-        height: 150px;
+        height: 120px; /* さらに小さく */
     }
 }
     </style>
