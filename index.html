@@ -129,6 +129,12 @@
             justify-content: center;
             border-radius: 5px;
             position: relative;
+            overflow: hidden; /* 画像がはみ出ないように */
+        }
+        .scene-image img {
+            object-fit: contain; /* 画像のアスペクト比を維持 */
+            max-width: 100%;
+            max-height: 100%;
         }
         .scene-description {
             margin-bottom: 20px;
@@ -286,6 +292,12 @@
         margin-bottom: 10px;
     }
     
+    /* 画像のサイズ調整 */
+    .scene-image img {
+        max-height: 140px;
+        object-fit: contain;
+    }
+    
     /* 説明文をコンパクトに */
     .scene-description {
         padding: 10px;
@@ -332,6 +344,10 @@
     
     .scene-image {
         height: 120px; /* さらに小さく */
+    }
+
+    .scene-image img {
+        max-height: 110px;
     }
 }
     </style>
@@ -419,6 +435,7 @@
             morningEvents: [
                 {
                     description: "朝の着替えの時間です。りーちゃんは「自分でやる！」と言いながらも、なかなか着替えが進みません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「早くしなさい！もう時間がないよ」と急かす", 
@@ -444,6 +461,7 @@
                 },
                 {
                     description: "朝食の時間です。りーちゃんは「これ食べたくない」と言って、朝食を食べようとしません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「食べなさい！」と強く言う", 
@@ -469,6 +487,7 @@
                 },
                 {
                     description: "出発の準備をしています。りーちゃんはまだ遊びたいと言って、なかなか準備ができません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう行くよ！早くしなさい」と強く言う", 
@@ -498,6 +517,7 @@
             eveningEvents: [
                 {
                     description: "保育園のお迎えの時間です。りーちゃんは「まだ遊びたい！」と言って、帰る準備をしません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう帰るよ！早くしなさい」と強く言う", 
@@ -523,6 +543,7 @@
                 },
                 {
                     description: "家に帰ってきました。りーちゃんは手を洗わずにおもちゃで遊び始めようとしています。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「手を洗いなさい！」と強く言う", 
@@ -548,6 +569,7 @@
                 },
                 {
                     description: "夕食の時間です。りーちゃんは「これ嫌い！」と言って、おみそ汁を食べようとしません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「食べな。残したらデザートなしだよ」と強めに言う", 
@@ -577,6 +599,7 @@
             noonEvents: [
                 {
                     description: "公園に来ました。りーちゃんは他の子のおもちゃを取ってしまい、トラブルになっています。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「おともだちのものを取ったらダメでしょ！謝りなさい」と強く言う", 
@@ -602,6 +625,7 @@
                 },
                 {
                     description: "ファミレスでランチです。りーちゃんは席に座らず、店内を走り回ろうとしています。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「座って！走ったら危ないでしょ」と強めに言う", 
@@ -627,6 +651,7 @@
                 },
                 {
                     description: "スーパーでお買い物中です。りーちゃんはお菓子売り場で「これ買って！」とダダをこね始めました。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「今日は買わないよ」と拒否する", 
@@ -656,6 +681,7 @@
             nightEvents: [
                 {
                     description: "お風呂の時間です。りーちゃんは「お風呂入りたくない！」と言って逃げ回っています。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「早く入りなさい！」と言う", 
@@ -681,6 +707,7 @@
                 },
                 {
                     description: "歯磨きの時間です。りーちゃんは「イヤだ！」と口を閉じて歯磨きを拒否しています。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「歯磨きしないと虫歯になるよ！」と脅す", 
@@ -706,6 +733,7 @@
                 },
                 {
                     description: "寝る時間です。りーちゃんは「まだ遊びたい！寝たくない！」と言って布団に入ろうとしません。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう寝なさい！明日早いんだから」と強く言う", 
@@ -735,6 +763,7 @@
             extraEvents: [
                 {
                     description: "弟の「あっくん」とおもちゃを取り合い、あっくんが泣き出してしまいました。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「りーちゃん、あっくんから取ったの？ダメでしょ！」と叱る", 
@@ -760,6 +789,7 @@
                 },
                 {
                     description: "電車の時刻が迫っている中、りーちゃんが「歩きたくない、抱っこして」と言い出しました。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう！急いでるのに！早く歩きなさい」と強く言う", 
@@ -785,6 +815,7 @@
                 },
                 {
                     description: "すでにジュースは飲んだのですが、りーちゃんが「もっとジュース飲みたい！」とぐずり始めました。",
+                    image: "images/morning_clothes.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「さっき飲んだから、おーしーまい！」と笑顔で伝える", 
@@ -901,10 +932,28 @@ function displayEvent(event) {
     
     const sceneDescription = document.getElementById('sceneDescription');
     const optionsContainer = document.getElementById('options');
+    const sceneImageContainer = document.querySelector('.scene-image');
     
     // 説明文の設定
     sceneDescription.textContent = event.description;
     
+   // 画像の設定
+    sceneImageContainer.innerHTML = ''; // 既存の内容をクリア
+    const img = document.createElement('img');
+    
+    if (event.image) {
+    // 画像パスがある場合
+    img.src = event.image;
+    } else {
+    // 画像がない場合はデフォルトの画像を表示
+    img.src = 'images/default_ree_chan.png';
+    }
+
+img.alt = 'シーン画像';
+img.style.maxWidth = '100%';
+img.style.maxHeight = '100%';
+sceneImageContainer.appendChild(img);
+
     // 選択肢のクリア
     optionsContainer.innerHTML = '';
     
