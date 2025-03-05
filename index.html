@@ -239,8 +239,67 @@
             color: #ff4d4f;
             font-size: 0.9em;
         }
+        /* 既存のスタイルに追加するレスポンシブデザイン用のCSS */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        font-size: 16px;
+    }
+    
+    #title-screen h1 {
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+    
+    .start-btn {
+        padding: 12px 40px;
+        font-size: 1.3em;
+    }
+    
+    .game-container {
+        padding: 10px;
+    }
+    
+    .status-bar {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .meter {
+        width: 100%;
+    }
+    
+    .scene-image {
+        height: 200px;
+    }
+    
+    .option-btn {
+        padding: 15px;
+        font-size: 1.1em;
+    }
+    
+    .rules-container {
+        padding: 15px;
+    }
+    
+    .rules-content {
+        font-size: 0.95em;
+    }
+}
+
+/* さらに小さい画面用 */
+@media screen and (max-width: 480px) {
+    #title-screen h1 {
+        font-size: 1.5em;
+    }
+    
+    .scene-image {
+        height: 150px;
+    }
+}
     </style>
 </head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <body>
     <div id="title-screen" class="screen">
         <h1>イヤイヤ期子育てシミュレーションゲーム<br>〜りーちゃん編〜</h1>
@@ -823,6 +882,14 @@ function displayEvent(event) {
         button.textContent = option.text;
         
         button.addEventListener('click', () => {
+            // すべての選択肢ボタンを無効化
+            const allButtons = optionsContainer.querySelectorAll('.option-btn');
+            allButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.5';  // 視覚的にも無効化されていることを示す
+                btn.style.cursor = 'default';
+            });
+            
             // 結果の表示
             const resultElement = document.getElementById('result');
             resultElement.innerHTML = '';
