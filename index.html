@@ -26,8 +26,29 @@
         #title-screen h1 {
             font-size: 2.5em;
             color: #ff6699;
-            margin-bottom: 50px;
+            margin-bottom: 30px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        .title-image {
+            width: 100%;
+            max-width: 500px;
+            height: auto;
+            margin: 0 auto 30px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            background-color: #ffebf3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 5px solid #fff;
+            aspect-ratio: 16 / 9; /* より横長の比率に設定 */
+        }
+        .title-image img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover; /* 画像がフレームを埋めるように表示 */
         }
         .start-btn {
             padding: 15px 50px;
@@ -121,20 +142,21 @@
         }
         .scene-image {
             width: 100%;
-            height: 300px;
+            height: 180px;
             background-color: #ffebf3;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 5px;
             position: relative;
             overflow: hidden; /* 画像がはみ出ないように */
+            aspect-ratio: 16 / 9; /* 横長比率の設定 */
         }
         .scene-image img {
-            object-fit: contain; /* 画像のアスペクト比を維持 */
-            max-width: 100%;
-            max-height: 100%;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 画像がフレームを埋めるように表示 */
         }
         .scene-description {
             margin-bottom: 20px;
@@ -217,6 +239,37 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        .reward-btn {
+            padding: 12px 30px;
+            background-color: #ff6699;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 20px 0;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .reward-btn:hover {
+            background-color: #ff8eb2;
+            transform: scale(1.05);
+        }
+        .test-btn {
+            padding: 8px 20px;
+            background-color: #9966cc;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1em;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+        }
+        .test-btn:hover {
+            background-color: #aa77dd;
+            transform: scale(1.05);
+        }
         .game-over {
             color: #ff4d4f;
             font-weight: bold;
@@ -245,6 +298,19 @@
             color: #ff4d4f;
             font-size: 0.9em;
         }
+        /* 動画コンテナのスタイル */
+        .video-container {
+            width: 100%;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        #clear-video {
+            max-width: 100%;
+            max-height: 200px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
         /* 既存のスタイルに追加するレスポンシブデザイン用のCSS */
 @media screen and (max-width: 768px) {
     body {
@@ -254,7 +320,13 @@
     
     #title-screen h1 {
         font-size: 1.8em;
-        margin-bottom: 30px;
+        margin-bottom: 20px;
+    }
+    
+    .title-image {
+        max-width: 400px;
+        margin-bottom: 20px;
+        aspect-ratio: 16 / 9;
     }
     
     .start-btn {
@@ -322,6 +394,17 @@
         font-size: 0.9em;
     }
     
+    /* 動画サイズをモバイル向けに調整 */
+    #clear-video {
+        max-width: 100%;
+        max-height: 200px;
+    }
+    
+    /* ご褒美ボタンをモバイル向けに調整 */
+    .reward-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
     
     .rules-container {
         padding: 15px;
@@ -338,16 +421,23 @@
         font-size: 1.5em;
     }
     
+    .title-image {
+        max-width: 300px;
+        aspect-ratio: 16 / 9;
+    }
+    
     .meter p {
         font-size: 0.7em; /* さらに小さく */
     }
     
     .scene-image {
-        height: 120px; /* さらに小さく */
+        height: 150px; /* さらに小さく */
+        aspect-ratio: 16 / 9;
     }
 
     .scene-image img {
-        max-height: 110px;
+        width: 100%;
+        height: 100%;
     }
 }
     </style>
@@ -356,7 +446,14 @@
 <body>
     <div id="title-screen" class="screen">
         <h1>イヤイヤ期子育てシミュレーションゲーム<br>〜りーちゃん編〜</h1>
+        <div class="title-image">
+            <img src="images/title.jpg" alt="りーちゃんの画像">
+        </div>
         <button id="start-btn" class="start-btn">START</button>
+        <!-- テストボタンを非表示に -->
+        <div style="margin-top: 30px; display: none;">
+            <button id="test-video-btn" class="test-btn">動画テスト</button>
+        </div>
     </div>
     
     <div id="rules-screen" class="screen" style="display: none;">
@@ -365,10 +462,10 @@
             <div class="rules-content">
                 <p><span class="ree-chan">りーちゃん（3さい）</span>だよ！ よろしくね♪</p>
                 <p>わたし、ときどき「イヤイヤ」しちゃうの。だって、じぶんでやりたいことあるもん！</p>
-                <p>おとうさんとおかあさんは、わたしのきもちをわかってくれるとうれしいな♡</p>
-                <p>このゲームでは、<span class="highlight">わたしのきもち</span>と<span class="highlight">おとうさん・おかあさんのがまんづよさ</span>と<span class="highlight">のこりじかん</span>に気をつけてね！</p>
+                <p>おかあさんは、わたしのきもちをわかってくれるとうれしいな♡</p>
+                <p>このゲームでは、<span class="highlight">わたしのきもち</span>と<span class="highlight">おかあさんのがまんづよさ</span>と<span class="highlight">のこりじかん</span>に気をつけてね！</p>
                 <p>げつようびからにちようびまでの1しゅうかん、わたしのおせわをしてね！</p>
-                <p>わたしのきもちがゼロになったり、おとうさん・おかあさんのがまんがなくなったり、じかんがなくなると、ゲームオーバーだよ！</p>
+                <p>わたしのきもちがゼロになったり、おかあさんのがまんがなくなったり、じかんがなくなると、ゲームオーバーだよ！</p>
                 <p>にちようびまでがんばれるかな？ いっしょにあそぼ！</p>
             </div>
             <button id="rules-ok-btn" class="rules-ok-btn">OK！</button>
@@ -389,7 +486,7 @@
                     <div id="childMoodMeter" class="meter-fill" style="width: 80%;"></div>
                 </div>
                 <div class="meter parent-patience">
-                    <p>親の忍耐力</p>
+                    <p>おかあさんの忍耐力</p>
                     <div id="parentPatienceMeter" class="meter-fill" style="width: 100%;"></div>
                 </div>
                 <div class="meter time-left">
@@ -419,6 +516,7 @@
             day: 1,
             currentEvent: 0, // 0: 朝, 1: 昼/夕方, 2: 夜
             extraEventPlayed: false, // エクストライベントが発生したかどうか
+            playedExtraEvents: [], // 発動済みのエクストライベントのインデックスを記録
             
             // 曜日の取得
             getWeekday() {
@@ -443,7 +541,7 @@
                             childMood: -50, parentPatience: -50, timeLeft: -50
                         },
                         { 
-                            text: "「おとうさん/おかあさんが手伝おうか？」と提案する", 
+                            text: "「おかあさんが手伝おうか？」と提案する", 
                             result: "りーちゃんは「自分でやる！」と言いながらも少し手伝ってもらい、何とか着替えることができました。", 
                             childMood: -5, parentPatience: -30, timeLeft: -20
                         },
@@ -461,7 +559,7 @@
                 },
                 {
                     description: "朝食の時間です。りーちゃんは「これ食べたくない」と言って、朝食を食べようとしません。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/breakfast.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「食べなさい！」と強く言う", 
@@ -487,7 +585,7 @@
                 },
                 {
                     description: "出発の準備をしています。りーちゃんはまだ遊びたいと言って、なかなか準備ができません。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/departure.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう行くよ！早くしなさい」と強く言う", 
@@ -505,7 +603,7 @@
                             childMood: -20, parentPatience: -30, timeLeft: -50
                         },
                         { 
-                            text: "「りーちゃんは電車の運転手さん、おとうさん/おかあさんは乗客ね。保育園駅まで連れて行ってください！」と遊びに変える", 
+                            text: "「りーちゃんは電車の運転手さん、おかあさんは乗客ね。保育園駅まで連れて行ってください！」と遊びに変える", 
                             result: "りーちゃんは運転手さんになりきって喜び、「発車しまーす！」と言いながら元気に出かけました。とても効果的でした！", 
                             childMood: +20, parentPatience: +0, timeLeft: -5
                         }
@@ -517,7 +615,7 @@
             eveningEvents: [
                 {
                     description: "保育園のお迎えの時間です。りーちゃんは「まだ遊びたい！」と言って、帰る準備をしません。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/picking_up.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう帰るよ！早くしなさい」と強く言う", 
@@ -543,7 +641,7 @@
                 },
                 {
                     description: "家に帰ってきました。りーちゃんは手を洗わずにおもちゃで遊び始めようとしています。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/hand_washing.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「手を洗いなさい！」と強く言う", 
@@ -562,14 +660,14 @@
                         },
                         { 
                             text: "「手を洗うと、おもちゃの菌をやっつけられるよ。おもちゃも喜ぶね」と理由を伝える", 
-                            result: "りーちゃんは「バイキンマンをいじめないで！」と言って、怒り出した、、、。", 
+                            result: "りーちゃんは「バイキンマンいじめちゃダメ！」と言って、怒り出した、、、。", 
                             childMood: -10, parentPatience: -20, timeLeft: -30
                         }
                     ]
                 },
                 {
                     description: "夕食の時間です。りーちゃんは「これ嫌い！」と言って、おみそ汁を食べようとしません。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/dinner.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「食べな。残したらデザートなしだよ」と強めに言う", 
@@ -587,7 +685,7 @@
                             childMood: +15, parentPatience: +0, timeLeft: -30
                         },
                         { 
-                            text: "「おみそ汁を飲むと強くなれるよ。おとうさん/おかあさんも食べて強くなったんだよ」と伝える", 
+                            text: "「おみそ汁を飲むと強くなれるよ。おかあさんも食べて強くなったんだよ」と伝える", 
                             result: "りーちゃんは「んなわけ！」とツッコミを入れて、大人たちの都合のいい嘘を見破りました。", 
                             childMood: -5, parentPatience: -20, timeLeft: -10
                         }
@@ -599,7 +697,7 @@
             noonEvents: [
                 {
                     description: "公園に来ました。りーちゃんは他の子のおもちゃを取ってしまい、トラブルになっています。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/park.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「おともだちのものを取ったらダメでしょ！謝りなさい」と強く言う", 
@@ -625,7 +723,7 @@
                 },
                 {
                     description: "ファミレスでランチです。りーちゃんは席に座らず、店内を走り回ろうとしています。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/family_restaurant.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「座って！走ったら危ないでしょ」と強めに言う", 
@@ -638,7 +736,7 @@
                             childMood: +15, parentPatience: +0, timeLeft: -5
                         },
                         { 
-                            text: "「お店の人や他のお客さんが困っちゃうよ。お食事が来るまでおとうさん/おかあさんとお話ししよう」と理由を説明する", 
+                            text: "「お店の人や他のお客さんが困っちゃうよ。お食事が来るまでおかあさんとお話ししよう」と理由を説明する", 
                             result: "りーちゃんは少し考えて、「ワオっちがしたい！」と言い出しました。ワオっちはさせたくなかったので、引き続き交渉が続きました、、、。", 
                             childMood: -5, parentPatience: -30, timeLeft: -30
                         },
@@ -651,7 +749,7 @@
                 },
                 {
                     description: "スーパーでお買い物中です。りーちゃんはお菓子売り場で「これ買って！」とダダをこね始めました。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/supermarket.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「今日は買わないよ」と拒否する", 
@@ -681,7 +779,7 @@
             nightEvents: [
                 {
                     description: "お風呂の時間です。りーちゃんは「お風呂入りたくない！」と言って逃げ回っています。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/bath_time.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「早く入りなさい！」と言う", 
@@ -707,7 +805,7 @@
                 },
                 {
                     description: "歯磨きの時間です。りーちゃんは「イヤだ！」と口を閉じて歯磨きを拒否しています。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/dentifrice.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「歯磨きしないと虫歯になるよ！」と脅す", 
@@ -733,7 +831,7 @@
                 },
                 {
                     description: "寝る時間です。りーちゃんは「まだ遊びたい！寝たくない！」と言って布団に入ろうとしません。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/sleep.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう寝なさい！明日早いんだから」と強く言う", 
@@ -763,7 +861,7 @@
             extraEvents: [
                 {
                     description: "弟の「あっくん」とおもちゃを取り合い、あっくんが泣き出してしまいました。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/akkun.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「りーちゃん、あっくんから取ったの？ダメでしょ！」と叱る", 
@@ -789,7 +887,7 @@
                 },
                 {
                     description: "電車の時刻が迫っている中、りーちゃんが「歩きたくない、抱っこして」と言い出しました。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/train.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「もう！急いでるのに！早く歩きなさい」と強く言う", 
@@ -815,7 +913,7 @@
                 },
                 {
                     description: "すでにジュースは飲んだのですが、りーちゃんが「もっとジュース飲みたい！」とぐずり始めました。",
-                    image: "images/morning_clothes.jpg", // 画像パスを追加
+                    image: "images/juice.jpg", // 画像パスを追加
                     options: [
                         { 
                             text: "「さっき飲んだから、おーしーまい！」と笑顔で伝える", 
@@ -854,6 +952,9 @@
                         return getRandomEvent(gameState.eveningEvents);
                     case 2: // 夜
                         return getRandomEvent(gameState.nightEvents);
+                    default:
+                        console.warn('平日: 未定義のcurrentEvent値:', gameState.currentEvent);
+                        return getRandomEvent(gameState.morningEvents); // デフォルトは朝イベント
                 }
             } else {
                 // 休日
@@ -862,8 +963,13 @@
                         return getRandomEvent(gameState.morningEvents);
                     case 1: // 昼
                         return getRandomEvent(gameState.noonEvents);
-                    case 2: // 夜
+                    case 2: // 夜（エクストライベント前）
                         return getRandomEvent(gameState.nightEvents);
+                    case 3: // 夜（エクストライベント後）
+                        return getRandomEvent(gameState.nightEvents);
+                    default:
+                        console.warn('休日: 未定義のcurrentEvent値:', gameState.currentEvent);
+                        return getRandomEvent(gameState.morningEvents); // デフォルトは朝イベント
                 }
             }
         }
@@ -878,8 +984,31 @@
         function getExtraEvent() {
             // 土日のみ、かつまだ発生していない場合
             if (!gameState.isWeekday() && !gameState.extraEventPlayed) {
-                const randomIndex = Math.floor(Math.random() * gameState.extraEvents.length);
-                return gameState.extraEvents[randomIndex];
+                // まだ発動していないエクストライベントのインデックスを取得
+                const availableIndices = [];
+                for (let i = 0; i < gameState.extraEvents.length; i++) {
+                    if (!gameState.playedExtraEvents.includes(i)) {
+                        availableIndices.push(i);
+                    }
+                }
+                
+                // 発動していないイベントがある場合
+                if (availableIndices.length > 0) {
+                    // ランダムに選択
+                    const randomIndex = Math.floor(Math.random() * availableIndices.length);
+                    const selectedIndex = availableIndices[randomIndex];
+                    
+                    // 発動済みとして記録
+                    gameState.playedExtraEvents.push(selectedIndex);
+                    
+                    return gameState.extraEvents[selectedIndex];
+                }
+                
+                // すべてのイベントが発動済みの場合は、制限を無視して完全にランダムに選択
+                if (gameState.extraEvents.length > 0) {
+                    const randomIndex = Math.floor(Math.random() * gameState.extraEvents.length);
+                    return gameState.extraEvents[randomIndex];
+                }
             }
             return null;
         }
@@ -926,6 +1055,23 @@
         
 // イベントの表示
 function displayEvent(event) {
+    // イベントの種類を判断
+    let eventType = "不明";
+    if (gameState.morningEvents.some(e => e.description === event.description)) {
+        eventType = "朝";
+    } else if (gameState.eveningEvents.some(e => e.description === event.description)) {
+        eventType = "夕方";
+    } else if (gameState.noonEvents.some(e => e.description === event.description)) {
+        eventType = "昼";
+    } else if (gameState.nightEvents.some(e => e.description === event.description)) {
+        eventType = "夜";
+    } else if (gameState.extraEvents.some(e => e.description === event.description)) {
+        eventType = "エクストラ";
+    }
+    
+    // デバッグ情報
+    console.log(`イベント表示: タイプ=${eventType}, currentEvent=${gameState.currentEvent}, 平日?=${gameState.isWeekday()}, エクストラ済み?=${gameState.extraEventPlayed}, 曜日=${gameState.getWeekday()}`);
+    
     // 前の結果表示をクリア
     const resultElement = document.getElementById('result');
     resultElement.innerHTML = '';
@@ -1007,18 +1153,29 @@ sceneImageContainer.appendChild(img);
                 // イベントを進める
                 gameState.currentEvent++;
                 
-                // 土日で、かつ現在のイベントが1（2番目）の場合、エクストライベントを発生させる
-                if (!gameState.isWeekday() && gameState.currentEvent === 1 && !gameState.extraEventPlayed) {
-                    gameState.extraEventPlayed = true;
+                // 土日で、かつ昼イベント終了後（currentEvent === 1からcurrentEvent++で2になった）、かつエクストライベントがまだ発生していない場合
+                if (!gameState.isWeekday() && gameState.currentEvent === 2 && !gameState.extraEventPlayed) {
+                    // エクストライベントを発動
                     const extraEvent = getExtraEvent();
                     if (extraEvent) {
+                        gameState.extraEventPlayed = true;
+                        // currentEventは2のままにし、後でextraEvent表示後に増やさない
                         displayEvent(extraEvent);
                         return;
                     }
                 }
                 
-                // 一日の終了判定
-                if (gameState.currentEvent > 2) {
+                // 土日で、かつエクストライベントが発生した後の次へボタンクリック時
+                if (!gameState.isWeekday() && gameState.extraEventPlayed && gameState.currentEvent === 2) {
+                    // 夜イベントを表示（currentEventは既に2なので増やさない）
+                    gameState.currentEvent = 3; // 夜イベント用の値に設定
+                    displayEvent(getCurrentEvent());
+                    return;
+                }
+                
+                // 一日の終了判定（平日と休日で判定条件を分ける）
+                if ((gameState.isWeekday() && gameState.currentEvent > 2) || 
+                    (!gameState.isWeekday() && gameState.currentEvent > 3)) {
                     endDay();
                 } else {
                     // 次のイベントを表示
@@ -1076,21 +1233,21 @@ function endDay() {
     resultElement.appendChild(dayEndText);
     
     // 次の日へボタン
-const nextDayButton = document.createElement('button');
-nextDayButton.className = 'next-day-btn';
-nextDayButton.textContent = '次の日へ';
-nextDayButton.addEventListener('click', () => {
-    // 選択肢と説明文が非表示になっていたら表示に戻す
-    if (document.getElementById('options').style.display === 'none') {
-        document.getElementById('options').style.display = 'block';
-    }
-    if (document.getElementById('sceneDescription').style.display === 'none') {
-        document.getElementById('sceneDescription').style.display = 'block';
-    }
-    
-    displayEvent(getCurrentEvent());
-});
-resultElement.appendChild(nextDayButton);
+    const nextDayButton = document.createElement('button');
+    nextDayButton.className = 'next-day-btn';
+    nextDayButton.textContent = '次の日へ';
+    nextDayButton.addEventListener('click', () => {
+        // 選択肢と説明文が非表示になっていたら表示に戻す
+        if (document.getElementById('options').style.display === 'none') {
+            document.getElementById('options').style.display = 'block';
+        }
+        if (document.getElementById('sceneDescription').style.display === 'none') {
+            document.getElementById('sceneDescription').style.display = 'block';
+        }
+        
+        displayEvent(getCurrentEvent());
+    });
+    resultElement.appendChild(nextDayButton);
 }
         
         // ゲームオーバー処理
@@ -1107,7 +1264,7 @@ resultElement.appendChild(nextDayButton);
             if (gameState.childMood <= 0) {
                 reasonText = 'りーちゃんの機嫌が最悪になってしまいました。大泣きが止まりません...';
             } else if (gameState.parentPatience <= 0) {
-                reasonText = 'おとうさん・おかあさんの忍耐力が限界に達してしまいました。少し休憩が必要かもしれません...';
+                reasonText = 'おかあさんの忍耐力が限界に達してしまいました。少し休憩が必要かもしれません...';
             } else if (gameState.timeLeft <= 0) {
                 reasonText = '時間切れです。予定に大幅に遅れてしまいました...';
             }
@@ -1147,8 +1304,81 @@ resultElement.appendChild(restartButton);
             reeChanMessage.style.fontWeight = 'bold';
             reeChanMessage.style.fontSize = '1.2em';
             reeChanMessage.style.margin = '20px 0';
-            reeChanMessage.textContent = 'りーちゃん「おとうさん・おかあさん、いつもありがとう。りーちゃん、だいすきだよ♡」';
+            reeChanMessage.textContent = 'りーちゃん「おかあさん、いつもありがとう。だいすきだよ♡」';
             resultElement.appendChild(reeChanMessage);
+            
+            // ご褒美動画を見るボタンを追加
+            const rewardButton = document.createElement('button');
+            rewardButton.className = 'reward-btn';
+            rewardButton.textContent = 'ご褒美動画を見る';
+            
+            rewardButton.addEventListener('click', function() {
+                // ボタンを非表示にする
+                this.style.display = 'none';
+                
+                // 動画コンテナを作成
+                const videoContainer = document.createElement('div');
+                videoContainer.className = 'video-container';
+                videoContainer.style.marginTop = '20px';
+                
+                // YouTube埋め込み動画を使用
+                const youtubeContainer = document.createElement('div');
+                youtubeContainer.style.position = 'relative';
+                youtubeContainer.style.width = '100%';
+                youtubeContainer.style.maxWidth = '640px';
+                youtubeContainer.style.margin = '0 auto';
+                youtubeContainer.style.borderRadius = '10px';
+                youtubeContainer.style.overflow = 'hidden';
+                youtubeContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+                
+                // YouTube動画IDを設定（ここを実際の動画IDに変更してください）
+                const youtubeVideoId = 'eOrRoFH0GaM'; // 例: かわいい子供の動画に変更してください
+                
+                // iframeを作成
+                const iframe = document.createElement('iframe');
+                iframe.width = '100%';
+                iframe.height = '360';
+                iframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?rel=0&autoplay=0&controls=1`;
+                iframe.title = 'YouTube動画';
+                iframe.frameBorder = '0';
+                iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+                iframe.allowFullscreen = true;
+                iframe.style.borderRadius = '10px';
+                
+                youtubeContainer.appendChild(iframe);
+                videoContainer.appendChild(youtubeContainer);
+                
+                // 説明テキスト
+                const description = document.createElement('p');
+                description.textContent = 'りーちゃんからのご褒美動画です♪';
+                description.style.marginTop = '15px';
+                description.style.color = '#ff6699';
+                description.style.fontWeight = 'bold';
+                videoContainer.appendChild(description);
+                
+                // 動画コンテナを追加
+                resultElement.appendChild(videoContainer);
+                
+                // 再生ボタン（明示的に再生を開始するため）
+                const playButton = document.createElement('button');
+                playButton.textContent = '動画を再生する';
+                playButton.className = 'next-btn';
+                playButton.style.marginTop = '10px';
+                playButton.style.backgroundColor = '#ff6699';
+                playButton.style.fontSize = '1.2em';
+                playButton.style.padding = '12px 30px';
+                
+                playButton.addEventListener('click', function() {
+                    // 自動再生付きのURLに更新
+                    iframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?rel=0&autoplay=1&controls=1`;
+                    // ボタンを非表示
+                    this.style.display = 'none';
+                });
+                
+                videoContainer.appendChild(playButton);
+            });
+            
+            resultElement.appendChild(rewardButton);
             
             // リスタートボタン
 const restartButton = document.createElement('button');
@@ -1165,6 +1395,7 @@ function resetGame() {
     gameState.day = 1;
     gameState.currentEvent = 0;
     gameState.extraEventPlayed = false;
+    gameState.playedExtraEvents = []; // 発動済みエクストライベントのリセット
     
     // 日数表示の更新
     document.getElementById('day').textContent = gameState.day;
@@ -1212,6 +1443,17 @@ document.addEventListener('DOMContentLoaded', function() {
         console.error('Start button not found');
     }
     
+    // 動画テストボタン
+    const testVideoBtn = document.getElementById('test-video-btn');
+    if (testVideoBtn) {
+        testVideoBtn.addEventListener('click', function() {
+            console.log('Test video button clicked');
+            showVideoTestScreen();
+        });
+    } else {
+        console.error('Test video button not found');
+    }
+    
     // ルール画面のOKボタン
     const rulesOkBtn = document.getElementById('rules-ok-btn');
     if (rulesOkBtn) {
@@ -1230,6 +1472,160 @@ document.addEventListener('DOMContentLoaded', function() {
     // 初期表示はタイトル画面
     showScreen('title-screen');
 });
+
+// 動画テスト画面を表示する関数
+function showVideoTestScreen() {
+    // 既存の画面を非表示
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.style.display = 'none';
+    });
+    
+    // 動画テスト画面を作成
+    const videoTestScreen = document.createElement('div');
+    videoTestScreen.id = 'video-test-screen';
+    videoTestScreen.className = 'screen';
+    videoTestScreen.style.display = 'block';
+    
+    // 画面のコンテンツを作成
+    const container = document.createElement('div');
+    container.className = 'rules-container';
+    container.style.backgroundColor = 'white';
+    container.style.padding = '30px';
+    container.style.borderRadius = '10px';
+    container.style.boxShadow = '0 0 10px rgba(0,0,0,0.1)';
+    
+    // タイトル
+    const title = document.createElement('h2');
+    title.textContent = '動画テスト';
+    title.style.color = '#9966cc';
+    title.style.marginBottom = '20px';
+    container.appendChild(title);
+    
+    // 説明文
+    const description = document.createElement('p');
+    description.textContent = 'YouTube動画再生機能のテストです。下のボタンをクリックすると動画が表示されます。';
+    description.style.marginBottom = '20px';
+    container.appendChild(description);
+    
+    // YouTube埋め込み情報セクション
+    const youtubeInfoSection = document.createElement('div');
+    youtubeInfoSection.style.backgroundColor = '#f0f8ff';
+    youtubeInfoSection.style.padding = '15px';
+    youtubeInfoSection.style.borderRadius = '10px';
+    youtubeInfoSection.style.marginBottom = '20px';
+    youtubeInfoSection.innerHTML = `
+        <h3 style="margin-top: 0; color: #1890ff;">YouTube埋め込み設定</h3>
+        <p>現在設定されているYouTube動画ID: <code>dQw4w9WgXcQ</code></p>
+        <p>別の動画を使用する場合は、コードの <code>youtubeVideoId</code> を変更してください。</p>
+        <p>YouTubeの動画URLが <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code> の場合、<br>
+        動画IDは <code>dQw4w9WgXcQ</code> の部分です。</p>
+    `;
+    container.appendChild(youtubeInfoSection);
+    
+    // 動画コンテナ
+    const videoContainer = document.createElement('div');
+    videoContainer.className = 'video-container';
+    videoContainer.style.display = 'none'; // 最初は非表示
+    container.appendChild(videoContainer);
+    
+    // 動画を表示ボタン
+    const playButton = document.createElement('button');
+    playButton.textContent = '動画を表示';
+    playButton.className = 'next-btn';
+    playButton.style.backgroundColor = '#9966cc';
+    playButton.style.fontSize = '1.2em';
+    playButton.style.padding = '12px 30px';
+    
+    playButton.addEventListener('click', function() {
+        // ボタンを非表示
+        this.style.display = 'none';
+        
+        // 動画コンテナを表示
+        videoContainer.style.display = 'block';
+        
+        // YouTube埋め込み動画を使用
+        const youtubeContainer = document.createElement('div');
+        youtubeContainer.style.position = 'relative';
+        youtubeContainer.style.width = '100%';
+        youtubeContainer.style.maxWidth = '640px';
+        youtubeContainer.style.margin = '0 auto';
+        youtubeContainer.style.borderRadius = '10px';
+        youtubeContainer.style.overflow = 'hidden';
+        youtubeContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
+        
+        // YouTube動画IDを設定
+        const youtubeVideoId = 'eOrRoFH0GaM'; // 例: かわいい子供の動画に変更してください
+        
+        // iframeを作成
+        const iframe = document.createElement('iframe');
+        iframe.width = '100%';
+        iframe.height = '360';
+        iframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?rel=0&autoplay=0&controls=1`;
+        iframe.title = 'YouTube動画';
+        iframe.frameBorder = '0';
+        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+        iframe.allowFullscreen = true;
+        iframe.style.borderRadius = '10px';
+        
+        youtubeContainer.appendChild(iframe);
+        videoContainer.appendChild(youtubeContainer);
+        
+        // 説明テキスト
+        const videoDescription = document.createElement('p');
+        videoDescription.textContent = 'YouTube動画のテストです。';
+        videoDescription.style.marginTop = '15px';
+        videoDescription.style.color = '#9966cc';
+        videoContainer.appendChild(videoDescription);
+        
+        // 再生ボタン（明示的に再生を開始するため）
+        const videoPlayButton = document.createElement('button');
+        videoPlayButton.textContent = '動画を再生する';
+        videoPlayButton.className = 'next-btn';
+        videoPlayButton.style.marginTop = '10px';
+        videoPlayButton.style.backgroundColor = '#9966cc';
+        videoPlayButton.style.fontSize = '1.2em';
+        videoPlayButton.style.padding = '12px 30px';
+        
+        videoPlayButton.addEventListener('click', function() {
+            // 自動再生付きのURLに更新
+            iframe.src = `https://www.youtube.com/embed/${youtubeVideoId}?rel=0&autoplay=1&controls=1`;
+            // ボタンを非表示
+            this.style.display = 'none';
+        });
+        
+        videoContainer.appendChild(videoPlayButton);
+        
+        // 接続テスト結果
+        const connectionTest = document.createElement('div');
+        connectionTest.style.marginTop = '20px';
+        connectionTest.style.padding = '10px';
+        connectionTest.style.backgroundColor = '#f6ffed';
+        connectionTest.style.borderRadius = '5px';
+        connectionTest.innerHTML = `
+            <p style="margin: 0; color: #52c41a;"><strong>✅ YouTube接続テスト成功</strong></p>
+            <p style="margin-top: 5px; font-size: 0.9em;">YouTubeの埋め込み動画が正常に読み込まれました。</p>
+        `;
+        videoContainer.appendChild(connectionTest);
+    });
+    
+    container.appendChild(playButton);
+    
+    // 戻るボタン
+    const backButton = document.createElement('button');
+    backButton.textContent = 'タイトルに戻る';
+    backButton.className = 'restart-btn';
+    backButton.addEventListener('click', function() {
+        // 動画テスト画面を削除
+        videoTestScreen.remove();
+        // タイトル画面を表示
+        showScreen('title-screen');
+    });
+    backButton.style.marginTop = '20px';
+    container.appendChild(backButton);
+    
+    videoTestScreen.appendChild(container);
+    document.body.appendChild(videoTestScreen);
+}
 
 // デバッグ用：イベントリスナーの確認
 console.log('Start button exists:', !!document.getElementById('start-btn'));
