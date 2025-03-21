@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <title>イヤイヤ期子育てシミュレーションゲーム〜りーちゃん編〜</title>
     <style>
+        :root {
+            --scene-aspect-ratio: 4 / 3; /* グローバルなアスペクト比設定 */
+        }
+        
+        /* シーン画像のリセットスタイル */
+        .scene-image,
+        .scene-image img {
+            aspect-ratio: var(--scene-aspect-ratio) !important;
+        }
+        
         body {
             font-family: 'Meiryo', sans-serif;
             max-width: 800px;
@@ -42,7 +52,7 @@
             align-items: center;
             justify-content: center;
             border: 5px solid #fff;
-            aspect-ratio: 16 / 9; /* より横長の比率に設定 */
+            aspect-ratio: 4 / 3; /* 4:3比率に変更 */
         }
         .title-image img {
             width: 100%;
@@ -141,22 +151,24 @@
             background-color: #66cc66;
         }
         .scene-image {
-            width: 100%;
-            height: 180px;
+            width: 50%; /* PC表示では幅を50%に制限 */
+            height: auto; /* 高さは自動計算 */
+            margin: 0 auto 10px; /* 中央揃え */
+            max-height: none; /* max-heightをnoneに設定 */
+            aspect-ratio: 4 / 3 !important; /* 4:3比率（最優先） */
             background-color: #ffebf3;
-            margin-bottom: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 5px;
             position: relative;
             overflow: hidden; /* 画像がはみ出ないように */
-            aspect-ratio: 16 / 9; /* 横長比率の設定 */
         }
         .scene-image img {
             width: 100%;
             height: 100%;
             object-fit: cover; /* 画像がフレームを埋めるように表示 */
+            aspect-ratio: 4 / 3 !important; /* 画像自体にも4:3を設定 */
         }
         .scene-description {
             margin-bottom: 20px;
@@ -326,7 +338,7 @@
     .title-image {
         max-width: 400px;
         margin-bottom: 20px;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 4 / 3; /* 4:3比率に変更 */
     }
     
     .start-btn {
@@ -360,14 +372,20 @@
     
      /* シーン画像を小さく */
      .scene-image {
-        height: 150px;
-        margin-bottom: 10px;
+        width: 80%; /* タブレット表示では幅を80%に */
+        height: auto; /* 高さは自動計算 */
+        margin: 0 auto 10px; /* 中央揃え */
+        max-height: none; /* max-heightをnoneに設定 */
+        aspect-ratio: 4 / 3 !important; /* 4:3比率（最優先） */
     }
     
     /* 画像のサイズ調整 */
     .scene-image img {
-        max-height: 140px;
-        object-fit: contain;
+        width: 100%;
+        height: 100%;
+        max-height: none; /* max-heightをnoneに設定 */
+        object-fit: cover; /* coverに変更 */
+        aspect-ratio: 4 / 3 !important; /* 画像自体にも4:3を設定 */
     }
     
     /* 説明文をコンパクトに */
@@ -423,7 +441,7 @@
     
     .title-image {
         max-width: 300px;
-        aspect-ratio: 16 / 9;
+        aspect-ratio: 4 / 3; /* 4:3比率に変更 */
     }
     
     .meter p {
@@ -431,13 +449,17 @@
     }
     
     .scene-image {
-        height: 150px; /* さらに小さく */
-        aspect-ratio: 16 / 9;
+        height: auto; /* 高さは自動計算 */
+        max-height: none; /* max-heightをnoneに設定 */
+        aspect-ratio: 4 / 3 !important; /* 4:3比率（最優先） */
     }
 
     .scene-image img {
         width: 100%;
         height: 100%;
+        max-height: none; /* max-heightをnoneに設定 */
+        object-fit: cover; /* coverに変更 */
+        aspect-ratio: 4 / 3 !important; /* 画像自体にも4:3を設定 */
     }
 }
     </style>
@@ -1080,6 +1102,9 @@ function displayEvent(event) {
     const optionsContainer = document.getElementById('options');
     const sceneImageContainer = document.querySelector('.scene-image');
     
+    // シーンイメージコンテナにアスペクト比を強制的に設定
+    sceneImageContainer.style.aspectRatio = "4/3";
+    
     // 説明文の設定
     sceneDescription.textContent = event.description;
     
@@ -1098,6 +1123,7 @@ function displayEvent(event) {
 img.alt = 'シーン画像';
 img.style.maxWidth = '100%';
 img.style.maxHeight = '100%';
+img.style.aspectRatio = "4/3"; // 画像自体にもアスペクト比を設定
 sceneImageContainer.appendChild(img);
 
     // 選択肢のクリア
@@ -1642,6 +1668,96 @@ if (document.getElementById('rules-ok-btn')) {
         displayEvent(getCurrentEvent());
     };
 }
+
+// シーン画像のアスペクト比を強制的に修正する関数
+function fixSceneImageAspectRatio() {
+    console.log('シーン画像のアスペクト比を修正します');
+    const sceneImages = document.querySelectorAll('.scene-image');
+    
+    // CSSのカスタムプロパティの値を確認
+    const rootStyle = getComputedStyle(document.documentElement);
+    const aspectRatioValue = rootStyle.getPropertyValue('--scene-aspect-ratio').trim() || "4/3";
+    console.log('グローバルアスペクト比設定:', aspectRatioValue);
+    
+    // 画面幅に応じて適切な幅を設定
+    let imageWidth = '50%'; // デフォルトはPC表示で50%
+    if (window.innerWidth <= 768) {
+        imageWidth = '80%'; // タブレット表示では80%
+    }
+    if (window.innerWidth <= 480) {
+        imageWidth = '100%'; // スマホ表示では100%
+    }
+    
+    sceneImages.forEach(container => {
+        // 既存のインラインスタイルをリセット
+        container.removeAttribute('style');
+        
+        // 新しいスタイルを設定
+        container.style.aspectRatio = "4/3";
+        container.style.width = imageWidth;
+        container.style.margin = "0 auto 10px";
+        container.style.height = "auto";
+        // max-heightの設定を削除
+        
+        // スタイルの設定を確認
+        const computedStyle = window.getComputedStyle(container);
+        console.log('現在のアスペクト比:', computedStyle.aspectRatio);
+        console.log('現在の幅:', computedStyle.width);
+        
+        // もし21:9が見つかったら警告
+        if (computedStyle.aspectRatio.includes('21/9') || computedStyle.aspectRatio.includes('21 / 9')) {
+            console.error('21:9のアスペクト比が検出されました！強制上書きします');
+        }
+        
+        // containerの中の画像も修正
+        const images = container.querySelectorAll('img');
+        images.forEach(img => {
+            // 既存のインラインスタイルをリセット
+            img.removeAttribute('style');
+            
+            // 新しいスタイルを設定
+            img.style.aspectRatio = "4/3";
+            img.style.objectFit = "cover";
+            img.style.width = "100%";
+            img.style.height = "100%";
+        });
+    });
+    
+    // CSSルールを検索して21:9があれば警告
+    for (let i = 0; i < document.styleSheets.length; i++) {
+        try {
+            const styleSheet = document.styleSheets[i];
+            const rules = styleSheet.cssRules || styleSheet.rules;
+            
+            for (let j = 0; j < rules.length; j++) {
+                const rule = rules[j];
+                const cssText = rule.cssText || '';
+                
+                if (cssText.includes('21/9') || cssText.includes('21 / 9')) {
+                    console.error('CSSに21:9の設定が見つかりました:', cssText);
+                }
+            }
+        } catch (e) {
+            // CSSのクロスオリジンの制限により読めないスタイルシートがある場合
+            console.log('スタイルシートの検査中にエラー:', e);
+        }
+    }
+    
+    // 1秒後に再度実行
+    setTimeout(fixSceneImageAspectRatio, 1000);
+}
+
+// DOMロード時に実行
+document.addEventListener('DOMContentLoaded', function() {
+    // 初期実行
+    fixSceneImageAspectRatio();
+});
+
+// ページロード完了時にも実行
+window.onload = function() {
+    // 再実行
+    fixSceneImageAspectRatio();
+};
     </script>
 </body>
 </html>
