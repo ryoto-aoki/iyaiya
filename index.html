@@ -467,7 +467,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <body>
     <div id="title-screen" class="screen">
-        <h1>イヤイヤ期子育てシミュレーションゲーム<br>〜りーちゃん編〜</h1>
+        <h1>イヤイヤ期子育て<br>シミュレーションゲーム<br>〜りーちゃん編〜</h1>
         <div class="title-image">
             <img src="images/title.jpg" alt="りーちゃんの画像">
         </div>
@@ -505,7 +505,7 @@
             <div class="status-bar">
                 <div class="meter child-mood">
                     <p>りーちゃんの機嫌</p>
-                    <div id="childMoodMeter" class="meter-fill" style="width: 80%;"></div>
+                    <div id="childMoodMeter" class="meter-fill" style="width: 50%;"></div>
                 </div>
                 <div class="meter parent-patience">
                     <p>おかあさんの忍耐力</p>
@@ -532,7 +532,7 @@
     <script>
         // ゲームの状態
         const gameState = {
-            childMood: 80,
+            childMood: 50,
             parentPatience: 100,
             timeLeft: 100,
             day: 1,
@@ -652,7 +652,7 @@
                         { 
                             text: "「今日はどんなことして遊んだの？」と保育園での出来事を聞く", 
                             result: "りーちゃんは嬉しそうに今日の出来事を話し始め、話しながら自然と帰る準備ができました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -10
+                            childMood: +10, parentPatience: +0, timeLeft: -10
                         },
                         { 
                             text: "「おうちに帰ったら、りーちゃんの好きなおやつがあるよ」と楽しみを伝える", 
@@ -678,7 +678,7 @@
                         { 
                             text: "「手洗いレースしよう！誰が一番早く上手に洗えるかな？」と遊びに変える", 
                             result: "りーちゃんは「りーちゃんが勝つ！」と言って喜んで手を洗いに行きました。楽しく手洗いができました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -5
+                            childMood: +10, parentPatience: +0, timeLeft: -5
                         },
                         { 
                             text: "「手を洗うと、おもちゃの菌をやっつけられるよ。おもちゃも喜ぶね」と理由を伝える", 
@@ -704,7 +704,7 @@
                         { 
                             text: "「おみそ汁、誰に運んでもらう？」と聞いてみる", 
                             result: "りーちゃんは、「ばあば！」と答えたので、「ばあば！ばあば！」と言って、スプーンでおみそ汁を口まで運んで上げると大喜びで食べてくれました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -30
+                            childMood: +10, parentPatience: +0, timeLeft: -30
                         },
                         { 
                             text: "「おみそ汁を飲むと強くなれるよ。おかあさんも食べて強くなったんだよ」と伝える", 
@@ -739,7 +739,7 @@
                         { 
                             text: "「こっちにも面白いおもちゃがあるよ。一緒に遊ぼう」と別の遊びに誘う", 
                             result: "りーちゃんは新しいおもちゃに興味を示し、トラブルを忘れて楽しく遊び始めました。上手に気をそらすことができました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -5
+                            childMood: +10, parentPatience: +0, timeLeft: -5
                         }
                     ]
                 },
@@ -755,7 +755,7 @@
                         { 
                             text: "「ワオっちしようか？」とスマホを見せて誘う", 
                             result: "りーちゃんはワオっちに興味を示し、席に戻って遊び始めました。食事が来るまで静かに過ごすことができました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -5
+                            childMood: +10, parentPatience: +0, timeLeft: -5
                         },
                         { 
                             text: "「お店の人や他のお客さんが困っちゃうよ。お食事が来るまでおかあさんとお話ししよう」と理由を説明する", 
@@ -791,7 +791,7 @@
                         { 
                             text: "「お買い物リストのものを探すの手伝ってくれる？りーちゃんにお手伝いしてほしいな」と役割を与える", 
                             result: "りーちゃんは「りーちゃんがお手伝いする！」と言って、お菓子のことを忘れて買い物を手伝い始めましたが、かえって買い物に時間がかかりました、、、。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -40
+                            childMood: +10, parentPatience: +0, timeLeft: -40
                         }
                     ]
                 }
@@ -821,7 +821,7 @@
                         { 
                             text: "「お風呂入ったら、マンゴーはちみつ飲もうね」と条件を出す", 
                             result: "りーちゃんは「迷路したい」と言い出し、しかたなく2分迷路をしてからお風呂に向かいました。", 
-                            childMood: +15, parentPatience: -20, timeLeft: -30
+                            childMood: +10, parentPatience: -20, timeLeft: -30
                         }
                     ]
                 },
@@ -837,7 +837,7 @@
                         { 
                             text: "「歯磨きごっこしよう。まずはぬいぐるみの歯を磨いてあげよう」と遊びに変える", 
                             result: "りーちゃんはぬいぐるみの歯磨きに興味を示し、「次はりーちゃんの番！」と言って自分の歯も磨かせてくれました。", 
-                            childMood: +20, parentPatience: -5, timeLeft: -15
+                            childMood: +10, parentPatience: -5, timeLeft: -15
                         },
                         { 
                             text: "「どっちの歯ブラシ使う？ウサギさんとクマさんどっちがいい？」と選択肢を与える", 
@@ -868,12 +868,12 @@
                         { 
                             text: "「今日一日、何が楽しかった？」と一日の振り返りをする", 
                             result: "りーちゃんは今日の楽しかったことを話し始め、話しているうちに自然と布団に入りました。穏やかな気持ちで眠りにつけました。", 
-                            childMood: +15, parentPatience: +0, timeLeft: -20
+                            childMood: +10, parentPatience: +0, timeLeft: -20
                         },
                         { 
                             text: "「お話読んであげるね。どのお話がいい？」と絵本の読み聞かせを提案する", 
                             result: "りーちゃんは絵本に興味を示し、「これがいい！」と選んで布団に入りましたが、選んだ本が多く、寝るまでに時間がかかりました。", 
-                            childMood: +20, parentPatience: -10, timeLeft: -40
+                            childMood: +15, parentPatience: -10, timeLeft: -40
                         }
                     ]
                 }
@@ -919,12 +919,12 @@
                         { 
                             text: "「疲れちゃったんだね。少しだけ抱っこするよ」と妥協する", 
                             result: "りーちゃんは抱っこしてもらって満足しました。何とか電車に間に合いそうです。", 
-                            childMood: +15, parentPatience: -15, timeLeft: -15
+                            childMood: +10, parentPatience: -15, timeLeft: -15
                         },
                         { 
                             text: "「電車ごっこしながら行こう！りーちゃんが先頭車両ね」と遊びに変える", 
                             result: "りーちゃんは「しゅっぽーしゅっぽー！」と言いながら喜んで歩き始めました。ところが時間が結構かかり、電車に乗り遅れました、、、。", 
-                            childMood: +20, parentPatience: -10, timeLeft: -50
+                            childMood: +15, parentPatience: -10, timeLeft: -50
                         },
                         { 
                             text: "「あの電車に乗れるかな？りーちゃんは走るの速いもんね」と挑戦心をくすぐる", 
@@ -1228,8 +1228,8 @@ function endDay() {
     }
     
     // パラメータの回復
-    gameState.childMood = Math.min(100, gameState.childMood + 20);
-    gameState.parentPatience = Math.min(100, gameState.parentPatience + 30);
+    gameState.childMood = Math.min(100, gameState.childMood + 10);
+    gameState.parentPatience = Math.min(100, gameState.parentPatience + 20);
     gameState.timeLeft = 100;
     
     // 日数表示の更新
@@ -1358,7 +1358,7 @@ resultElement.appendChild(restartButton);
                 youtubeContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
                 
                 // YouTube動画IDを設定（ここを実際の動画IDに変更してください）
-                const youtubeVideoId = 'eOrRoFH0GaM'; // 例: かわいい子供の動画に変更してください
+                const youtubeVideoId = 'EDMJpdC4dJc'; // 例: かわいい子供の動画に変更してください
                 
                 // iframeを作成
                 const iframe = document.createElement('iframe');
@@ -1541,10 +1541,10 @@ function showVideoTestScreen() {
     youtubeInfoSection.style.marginBottom = '20px';
     youtubeInfoSection.innerHTML = `
         <h3 style="margin-top: 0; color: #1890ff;">YouTube埋め込み設定</h3>
-        <p>現在設定されているYouTube動画ID: <code>dQw4w9WgXcQ</code></p>
+        <p>現在設定されているYouTube動画ID: <code>EDMJpdC4dJc</code></p>
         <p>別の動画を使用する場合は、コードの <code>youtubeVideoId</code> を変更してください。</p>
-        <p>YouTubeの動画URLが <code>https://www.youtube.com/watch?v=dQw4w9WgXcQ</code> の場合、<br>
-        動画IDは <code>dQw4w9WgXcQ</code> の部分です。</p>
+        <p>YouTubeの動画URLが <code>https://www.youtube.com/watch?v=EDMJpdC4dJc</code> の場合、<br>
+        動画IDは <code>EDMJpdC4dJc</code> の部分です。</p>
     `;
     container.appendChild(youtubeInfoSection);
     
@@ -1580,7 +1580,7 @@ function showVideoTestScreen() {
         youtubeContainer.style.boxShadow = '0 4px 8px rgba(0,0,0,0.2)';
         
         // YouTube動画IDを設定
-        const youtubeVideoId = 'eOrRoFH0GaM'; // 例: かわいい子供の動画に変更してください
+        const youtubeVideoId = 'EDMJpdC4dJc'; // 例: かわいい子供の動画に変更してください
         
         // iframeを作成
         const iframe = document.createElement('iframe');
